@@ -1,0 +1,90 @@
+# coding: utf-8
+#converter de json para uma variável em python
+import json
+#verificação do dirétorio com path.exists
+import os
+#conversão de arquivos para utf-8 que possuem acentos
+import codecs
+#n pega aqui misera
+import requests
+#histograma
+import matplotlib.pyplot as plt
+
+
+#Arquivo em formato .json
+#Arquivo_Pesquisa = input('Digite o nome do arquivo com a sua respectiva formatação: ')
+
+#Dirétorio analisado em formato .txt
+Diretorio = input('Digite o nome do diretório a ser analisado(Necessita está na página do projeto): ')
+
+#verficação do arquivo
+#if os.path.exists(Arquivo_Pesquisa):
+#    print('O arquivo de pesquisa existe')
+
+if os.path.exists(Diretorio):
+    print('O diretório existe')
+
+    Palavras_chave = {
+    "nome" : ["Martin", "Luther","Malcom","King"],
+              "cidade" : ["Rio de Janeiro", "São Paulo", "Nova Iorque", "Memphis"],
+    "problema" : ["racismo", "violência", "armas", "balas", "guerra"]
+    }
+
+
+
+    Termo_de_pesquisa = input().lower()
+
+    #Realizada a aplicação do json para atribiuir a lista do termo que necessita ser pesquisado
+    Pesquisa = str(json.dumps(Palavras_chave[Termo_de_pesquisa]))
+
+    #Armazenando o texto em uma váriavel
+    texto = codecs.open(Diretorio,'r','utf-8')
+
+    #analisar os termos pesquisados e acessar-los
+    C = 0 #contador
+    for linha in texto:
+        linha = linha.replace(',','')
+        linha = linha.replace('#','')# se tiver hastag # iriri
+        linha = linha.split()
+        for i in range(len(Pesquisa)):
+            if linha == Pesquisa[i]:
+                C +=1
+        linha = ''
+    print(Pesquisa[1])
+    print(C)
+
+
+    #for linha in texto.readlines():
+        #linha = linha.rstrip()
+        #print(linha)
+
+    texto.close()#fechou o arquivo
+
+    #texto.seek(0)#voltou pro inicio
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+else:
+    print('errou')
