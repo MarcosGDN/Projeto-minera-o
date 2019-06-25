@@ -1,0 +1,60 @@
+#Para importar JSON
+import json
+import codecs
+import os
+import matplotlib.pyplot as plt
+
+#Função que define o que quer fazer com o arquivo, no caso, read
+def pastaJSON(busca):
+    with codecs.open(busca, 'r', encoding='utf-8') as fp:
+        return json.load(fp)
+
+#transferindo dados do arquivo JSON e solicitando o que deseja procurar
+caminho = "C:" + os.sep + "Users" + os.sep + "ifpb" + os.sep +"Desktop" + os.sep +"MarcosGostoso"+ os.sep +"analise.json"
+local = pastaJSON(caminho)
+termo=input("Informe o termo que deseja pesquisar: ").lower()
+valores=local.get(termo,"")
+palavras = []
+for p in valores:
+    palavras.append(p.lower())
+#tratando os arquivos .txt e analisando cada um
+if palavras != '':
+  arquivos = ['arquivo1.txt','arquivo2.txt','arquivo3.txt','arquivo4.txt','arquivo5.txt']
+  for i in range(len(arquivos)):
+    contador = {}
+    try:
+        with codecs.open(arquivos[i], 'r', encoding='utf-8') as fh:
+        #Substituindo palavras e transformando-as em letras minúsculas
+        #A função split colocará as palavras em uma mesma linha
+
+            for line in fh:
+                lista_das_palavras = line.replace(',', '').replace('\'', '').replace('.', '')
+                lista_das_palavras = lista_das_palavras.lower().split()
+            for palavra in lista_das_palavras:
+            #Adicionando a palavra em um contador
+                if palavra not in contador:
+                    contador[palavra] = 1
+                else:
+                    #Se a palavra for encontrada, será adicionada
+                    contador[palavra] = contador[palavra] + 1
+        a=[]
+        b=[]
+        #Analisando a ocorrencia das palavras
+        for(palavra,occurance) in contador.items():
+          a.append(format(palavra))
+          b.append(format(occurance))
+        print(arquivos[i])
+        #Encontrando o termo desejado
+        for j in range(len(palavras)):
+          try:
+            print("O termo ", a[a.index(palavras[j])], "aparece(m)", b[a.index(palavras[j])], "vez(es).")
+          except:
+            print("O termo ",palavras[j],"não aparece.")
+
+
+
+
+    except:
+        print("ARQUIVO INEXISTENTE")
+else:
+    print('Erro: termo não cadastrado')
